@@ -48,16 +48,17 @@ def check_exclusion(exclusions: dict, interventions: dict, seasons, intervention
     return True
 
 
-def get_starting_times(t_max: int):
+def get_starting_times(t_max: int, shuffle=False):
     starting_time = list(range(1, t_max + 1))
-    random.shuffle(starting_time)
+    if shuffle:
+        random.shuffle(starting_time)
     return starting_time
 
 
 def compute(instance: dict):
     best_objective = -1
     best_solution = []
-    n_try = 100
+    n_try = 1
     for i in range(n_try):
         solution = []
 
@@ -77,7 +78,7 @@ def compute(instance: dict):
         for intervention_name, intervention in interventions.items():
 
             # Test a list of starting time for the intervention
-            starting_times = get_starting_times(t_max)
+            starting_times = get_starting_times(t_max, shuffle=True)
             for start_time in starting_times:
                 start_time_idx = start_time - 1  # index of list starts at 0
                 is_workload_validate = True
